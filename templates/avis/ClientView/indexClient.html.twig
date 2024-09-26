@@ -1,0 +1,39 @@
+{% extends 'Clientbase.html.twig' %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rate</th>
+                <th>Commentaire</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for avi in avis %}
+            <tr>
+                <td>{{ avi.rate }} / 10</td>
+                <td>{{ avi.commentaire }}</td>
+                <td>{{ avi.date ? avi.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+<a href="{{ path('app_avis_edit', {'idAvis': avi.idAvis, 'idFormation': avi.idFormation.getIdFormation(), 'user_id': user_id}) }}" class="btn btn-primary btn-sm">Edit</a>
+                    <form method="POST" action="{{ path('app_avis_delete', {'idAvis': avi.idAvis , 'user_id': user_id}) }}" style="display: inline-block;">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avi.idAvis) }}">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this avis?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">No records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('Client_formation_index', {'user_id': user_id}) }}" class="btn btn-primary btn-user btn-block">
+        Back to list
+    </a>
+{% endblock %}

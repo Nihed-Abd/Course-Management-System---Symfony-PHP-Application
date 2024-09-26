@@ -1,0 +1,59 @@
+
+{% extends 'ClientBase.html.twig' %}
+
+{% block body %}
+
+ <section class="page-banner bg-image pt-130 pb-130">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="checkout__item-left sub-bg">
+                        <h3 class="mb-40">Payment</h3>
+    <form class="form" id='checkout-form' method='post' action="{{ path('app_stripe_charge2', {'user_id': user_id}) }}">             
+    <input class="mb-20" type='hidden' name='stripeToken' id='stripe-token-id'>                              
+    <label for="card-element" class="mb-5">Checkout Forms</label>
+    <br>
+    <div id="card-element" class="form-control" ></div>
+    <button 
+        id='pay-btn'
+        class="btn btn-success mt-3"
+        type="button"
+        style="margin-top: 20px; width: 100%;padding: 7px;"
+        onclick="createToken()">Confirmer
+    </button>
+<form>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://js.stripe.com/v3/" ></script>
+<script>
+    var stripe = Stripe("{{stripe_key}}");
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+ 
+    function createToken() {
+        document.getElementById("pay-btn").disabled = true;
+        stripe.createToken(cardElement).then(function(result) {
+ 
+                 
+            if(typeof result.error != 'undefined') {
+                document.getElementById("pay-btn").disabled = false;
+                alert(result.error.message);
+            }
+ 
+            // creating token success
+            if(typeof result.token != 'undefined') {
+                document.getElementById("stripe-token-id").value = result.token.id;
+                document.getElementById('checkout-form').submit();
+            }
+        });
+    }
+</script>
+
+{% endblock %}

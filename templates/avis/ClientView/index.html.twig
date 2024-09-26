@@ -1,0 +1,51 @@
+{% extends 'Clientbase.html.twig' %}
+
+{% block body %}
+    <h1>Avis</h1>
+
+    <a class="btn btn-primary btn-user btn-block" href="{{ path('app_avis_new', { 'user_id': user_id , 'idFormation': idFormation }) }}">Create new</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rate (Avis)</th>
+                <th>Commentaire</th>
+                <th>Date</th>
+                <th>Rate (Rating)</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for avi in avis %}
+            <tr>
+                <td>{{ avi.rate }} /10</td>
+                <td>{{ avi.commentaire }}</td>
+                <td>{{ avi.date ? avi.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    {% set avisId = avi.idAvis %}
+                    {% set rating = ratings[avisId] ?? null %}
+                    {% if rating %}
+                        {% set faStars = rating.rate > 0 ? rating.rate : 0 %}
+                        {% for i in range(1, 6) %}
+                            {% if faStars >= i %}
+                                <span class="fa fa-star"></span>
+                            {% else %}
+                                <span class="fa fa-star-o"></span>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        No rating
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('Client_formation_index', {'user_id': user_id}) }}" class="btn btn-primary btn-user btn-block">
+        Back to list
+    </a>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rating{% endblock %}
+
+{% block body %}
+    <h1>Rating</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdRating</th>
+                <td>{{ rating.idRating }}</td>
+            </tr>
+            <tr>
+                <th>Rate</th>
+                <td>{{ rating.rate }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ rating.date ? rating.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_rating_index') }}">back to list</a>
+
+    <a href="{{ path('app_rating_edit', {'idRating': rating.idRating}) }}">edit</a>
+
+    {{ include('rating/_delete_form.html.twig') }}
+{% endblock %}

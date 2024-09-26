@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Formations</h1>
+    <a  class="btn btn-primary btn-user btn-block" href="{{ path('app_formation_new') }}">Create new</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NomFormation</th>
+                <th>Description</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>Prix</th>
+                <th>Actions</th> 
+            </tr>
+        </thead>
+        <tbody>
+        {% for formation in formations %}
+            <tr>
+                <td>{{ formation.nomFormation }}</td> 
+                <td>{{ formation.description }}</td>
+                <td>{{ formation.dateDebut ? formation.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ formation.dateFin ? formation.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ formation.prix }}</td>
+                <td>
+                   <a href="{{ path('app_formation_edit', {'IdFormation': formation.idFormation}) }}" class="btn btn-warning btn-icon-split">
+    <span class="icon text-white-50">
+        <i class="fas fa-exclamation-triangle"></i>
+            <span class="text">Edit </span>
+    </span>
+</a>
+
+                    <a href="{{ path('admin_avis_index', {'idFormation': formation.idFormation}) }}" class="btn btn-info btn-user btn-block">
+    <span class="icon text-white-50">
+        <i class="fas fa-info-circle"></i>
+    </span>
+    <span class="text">Reviews</span>
+</a>
+
+  <form method="post" action="{{ path('app_formation_delete', {'IdFormation': formation.IdFormation}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ formation.IdFormation) }}">
+    <button type="submit" class="btn btn-danger btn-icon-split">
+        <span class="icon text-white-50">
+            <i class="fas fa-trash"></i>
+        </span>
+        <span class="text">Delete</span>
+    </button>
+</form>
+
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td> <!-- Corrected colspan to match the number of columns -->
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

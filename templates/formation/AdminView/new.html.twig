@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Formation{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create new Formation</h1>
+                            </div>
+                            {{ form_start(form) }}
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    {{ form_label(form.nomFormation) }}
+                                    {{ form_widget(form.nomFormation, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Nom de la formation'}}) }}
+                                    {% if form_errors(form.nomFormation) %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form_errors(form.nomFormation)|join('<br>') }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-sm-6">
+                                    {{ form_label(form.description) }}
+                                    {{ form_widget(form.description, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Description'}}) }}
+                                    {% if form_errors(form.description) %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form_errors(form.description)|join('<br>') }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    {{ form_label(form.dateDebut) }}
+                                    {{ form_widget(form.dateDebut, {'attr': {'class': 'form-control form-control-user'}}) }}
+                                    {% if form_errors(form.dateDebut) %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form_errors(form.dateDebut)|join('<br>') }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-sm-6">
+                                    {{ form_label(form.dateFin) }}
+                                    {{ form_widget(form.dateFin, {'attr': {'class': 'form-control form-control-user'}}) }}
+                                    {% if form_errors(form.dateFin) %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form_errors(form.dateFin)|join('<br>') }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.prix) }}
+                                {{ form_widget(form.prix, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Prix'}}) }}
+                                {% if form_errors(form.prix) %}
+                                    <div class="alert alert-danger mt-2">
+                                        {{ form_errors(form.prix)|join('<br>') }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                                Create Formation
+                            </button>
+                            {{ form_end(form) }}
+                            <a href="{{ path('app_formation_index') }}" class="btn btn-secondary btn-user btn-block">
+                                Back to List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
